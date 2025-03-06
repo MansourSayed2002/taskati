@@ -7,26 +7,28 @@ class CustomFormFieldGlobal extends StatelessWidget {
     super.key,
     this.hintText,
     this.controller,
-    this.maxlength,
-    this.contentPadding,
+    this.maxLines,
     this.suffixIcon,
     this.readOnly,
+    this.onTap,
+    this.style,
   });
   final String? hintText;
-  final int? maxlength;
+  final int? maxLines;
   final TextEditingController? controller;
-  final EdgeInsetsGeometry? contentPadding;
+  final Function()? onTap;
   final Widget? suffixIcon;
   final bool? readOnly;
+  final TextStyle? style;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      maxLength: maxlength,
+      maxLines: maxLines,
       readOnly: readOnly ?? false,
-      style: getBodyTextStyle(color: ColorApp.white),
+      onTap: onTap,
+      style: style ?? getBodyTextStyle(context),
       decoration: InputDecoration(
-        contentPadding: contentPadding,
         hintText: hintText,
         suffixIcon: suffixIcon,
         hintStyle: getSmallTextStyle(),

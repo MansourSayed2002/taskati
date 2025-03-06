@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:taskati/core/class/local_storage.dart';
+import 'package:taskati/core/service/local_storage.dart';
 import 'package:taskati/core/constants/image_app.dart';
 import 'package:taskati/core/constants/text_app.dart';
 import 'package:taskati/core/extensions/message_bar.dart';
@@ -26,15 +26,14 @@ class _UploadScreenState extends State<UploadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorApp.dark,
       appBar: AppBar(
-        backgroundColor: ColorApp.dark,
         actions: [
           TextButton(
             onPressed: () {
               if (path != null && name.text.isNotEmpty) {
                 LocalStorage.cacheData("name", name.text);
                 LocalStorage.cacheData("image", path);
+                LocalStorage.cacheData("step", "1");
                 context.pushReplacement(const HomeScreen());
               } else if (path == null && name.text.isNotEmpty) {
                 context.messageBar("Please select an image");
@@ -46,7 +45,7 @@ class _UploadScreenState extends State<UploadScreen> {
             },
             child: Text(
               TextApp.done,
-              style: getTitleTextStyle(color: ColorApp.primary),
+              style: getTitleTextStyle(context, color: ColorApp.primary),
             ),
           ),
         ],
@@ -83,7 +82,12 @@ class _UploadScreenState extends State<UploadScreen> {
                   },
                 ),
                 SizedBox(height: 20.0),
-                Divider(indent: 10.0, endIndent: 10.0, thickness: 0.3),
+                Divider(
+                  indent: 10.0,
+                  endIndent: 10.0,
+                  thickness: 0.3,
+                  color: ColorApp.primary,
+                ),
                 SizedBox(height: 20.0),
                 CustomFormFieldGlobal(
                   controller: name,

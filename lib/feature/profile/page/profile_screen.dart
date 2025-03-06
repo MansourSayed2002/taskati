@@ -1,61 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:taskati/core/constants/image_app.dart';
+import 'package:gap/gap.dart';
+import 'package:taskati/core/constants/text_app.dart';
+import 'package:taskati/core/service/local_storage.dart';
 import 'package:taskati/core/theme/color_app.dart';
-import 'package:taskati/core/theme/textstyle_app.dart';
+import 'package:taskati/feature/profile/widget/image_widget.dart';
+import 'package:taskati/feature/profile/widget/name_widget.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool? islight;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title: Text(TextApp.profile),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(Icons.sunny, color: ColorApp.primary),
+          IconButton(
+            icon: Icon(
+              islight ?? false ? Icons.dark_mode_outlined : Icons.sunny,
+              color: ColorApp.primary,
+            ),
+            onPressed: () {
+              setState(() {
+                islight = LocalStorage.getCachedData('islight') ?? false;
+                LocalStorage.cacheData('islight', !islight!);
+              });
+            },
           ),
         ],
       ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(30.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircleAvatar(
-                radius: 80,
-                backgroundImage: AssetImage(ImageApp.user),
-                backgroundColor: ColorApp.primary,
-              ),
-              SizedBox(height: 13.0),
+              ImageWidget(),
+              Gap(13.0),
               Divider(
                 indent: 20.0,
                 endIndent: 20.0,
                 thickness: 2,
                 color: ColorApp.grey,
               ),
-              SizedBox(height: 25.0),
-              Row(
-                children: [
-                  Text(
-                    "Mansour sayed adam",
-                    style: getTitleTextStyle(color: ColorApp.primary),
-                  ),
-                  Spacer(),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Container(
-                      padding: EdgeInsets.all(4.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: ColorApp.primary),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(Icons.edit_outlined, color: ColorApp.primary),
-                    ),
-                  ),
-                ],
-              ),
+              Gap(25.0),
+              NameWidget(),
             ],
           ),
         ),

@@ -31,7 +31,7 @@ class CustomElevatedButtonGlobal extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: textstyle ?? getBodyTextStyle(color: ColorApp.white),
+          style: textstyle ?? getBodyTextStyle(context, color: ColorApp.white),
         ),
       ),
     );
